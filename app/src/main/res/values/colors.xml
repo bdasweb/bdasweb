@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="logo_color">#860001</color>
+    <color name="logo_second_color">#b77b1b</color>
+    <color name="logo_second_color_opacity">#9CB77B1B</color>
+    <color name="logo_second_color_opacity_2">#63B77B1B</color>
+    <color name="line_pin_1">#a88a6b</color>
+    <color name="transparent">#00000000</color>
+    <color name="dark_gray">#555555</color>
+    <color name="gray">#889094</color>
+    <color name="blue2">#666DCA</color>
+</resources>

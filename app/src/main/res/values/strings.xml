@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">UPIPay</string>
+    <string name="back_button_desc">Go back</string>
+    <string name="app_qr">UPI QR code</string>
+    <string name="scan_qr_to_pay">Scan QR to Pay</string>
+    <string name="scan_to_pay">Scan the QR code to pay\nwith any UPI app</string>
+    <string name="qr_code_desc">QR Code for UPI Payment</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="ok">Ok</string>
+</resources>
