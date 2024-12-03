@@ -115,6 +115,8 @@ dependencies {
     debugImplementation ("com.github.chuckerteam.chucker:library:4.0.0")
     releaseImplementation ("com.github.chuckerteam.chucker:library-no-op:4.0.0")
 
+    implementation ("io.socket:socket.io-client:1.0.0")
+
 }
 
 kapt {

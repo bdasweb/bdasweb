@@ -14,10 +14,14 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
@@ -76,10 +80,18 @@ class UpiQrFragment : BaseFragment(), LocationUtil.LocationListener {
 
     }
     private fun observer() {
+
+
+        binding.etUri.setOnEditorActionListener { v, actionId, event ->
+
+            binding.tvUpilink.performClick()
+
+            return@setOnEditorActionListener true
+        }
         viewModel?.getQrCodeResponseLiveData?.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ResponseState.Loading -> {
-                    binding.qrCodeImageView.visibility=View.INVISIBLE
+                 //   binding.qrCodeImageView.visibility=View.INVISIBLE
                     loader?.show()
                 }
 
@@ -91,7 +103,7 @@ class UpiQrFragment : BaseFragment(), LocationUtil.LocationListener {
                                 upiLink=it
                                 generateQRCode(upiLink)
                             }?:{
-                                binding.qrCodeImageView.visibility=View.GONE
+                              //  binding.qrCodeImageView.visibility=View.GONE
                                 Toast.makeText(binding.root.context, "No UPI", Toast.LENGTH_SHORT).show()
                             }
 
@@ -128,7 +140,8 @@ class UpiQrFragment : BaseFragment(), LocationUtil.LocationListener {
             }
 
             tvRefresh.setOnClickListener{
-                viewModel?.GetQrCode()
+               // viewModel?.GetQrCode()
+                tvUpilink.performClick()
             }
 
             fabShare.setOnClickListener {
@@ -228,9 +241,9 @@ class UpiQrFragment : BaseFragment(), LocationUtil.LocationListener {
             loader = MethodClass.custom_loader(it, getString(R.string.please_wait))
         }
 
-        viewModel?.GetQrCode()
+        //viewModel?.GetQrCode()
         //generateQRCode(upiLink)
-        binding.tvUpiIdCopy.visibility=View.GONE
+       // binding.tvUpiIdCopy.visibility=View.GONE
         setUpiTextVisibleOrNot()
 
 
@@ -250,11 +263,18 @@ class UpiQrFragment : BaseFragment(), LocationUtil.LocationListener {
 
     private fun generateQRCode(upiLink: String) {
         try {
-            val barcodeEncoder = BarcodeEncoder()
-            val bitmap: Bitmap = barcodeEncoder.encodeBitmap(upiLink, BarcodeFormat.QR_CODE, 400, 400)
-            binding.qrCodeImageView.setImageBitmap(bitmap)
+
+            binding.qrCodeImageView.visibility=View.VISIBLE
+            Handler(Looper.getMainLooper()).postDelayed({
+                val barcodeEncoder = BarcodeEncoder()
+                val bitmap: Bitmap = barcodeEncoder.encodeBitmap(upiLink, BarcodeFormat.QR_CODE, 400, 400)
+                binding.qrCodeImageView.setImageBitmap(bitmap)
+
+            },100)
+
         } catch (e: Exception) {
             e.printStackTrace()
+            Toast.makeText(binding.root.context, "E:"+e.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -322,14 +342,18 @@ class UpiQrFragment : BaseFragment(), LocationUtil.LocationListener {
             //val uri = Uri.parse("upi://pay?pa=MSBPROSOFTECHPRIVATELIMITEDFRMYKNASBDASFINTECHPRIVATELIMITED.eazypay@icici&pn=M/S.BPRO%20SOFTECH%20PRIVATE%20LIMITED(FRMY%20KN%20AS%20BDAS%20FINTECH%20PRIVATE%20LIMITED)%20&tr=EZYS9051333222&cu=INR&mc=7299")
             val upiPayIntent = Intent(Intent.ACTION_VIEW)
             //upiPayIntent.data = uri
+            upiLink=binding.etUri.text.toString()
+            binding.qrCodeImageView.isVisible
             upiPayIntent.data =  Uri.parse(upiLink)
-
+            setUpiTextVisibleOrNot()
+            generateQRCode(upiLink)
+            setUpiTextVisibleOrNot()
             // Always check if there are any UPI apps installed
             val chooser = Intent.createChooser(upiPayIntent, "Pay with")
             if (chooser.resolveActivity(binding.root.context.packageManager) != null) {
-                if(binding.qrCodeImageView.isVisible==true) {
+               // if(binding.qrCodeImageView.isVisible==true) {
                     startActivityForResult(chooser, UPI_PAYMENT)
-                }
+                //}
             } else {
                 Toast.makeText(binding.root.context, "No UPI app found", Toast.LENGTH_SHORT).show()
             }

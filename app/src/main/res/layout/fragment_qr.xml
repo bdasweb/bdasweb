@@ -46,6 +46,7 @@
                 android:text="@string/app_qr"
                 android:textColor="@color/logo_color"
                 android:textSize="@dimen/_18ssp" />
+
         </LinearLayout>
 
         <!-- Scrollable Content -->
@@ -101,7 +102,8 @@
                             android:id="@+id/qrCodeImageView"
                             android:layout_width="@dimen/_200sdp"
                             android:layout_height="@dimen/_200sdp"
-                            android:visibility="invisible"
+                            android:visibility="visible"
+
                             android:layout_gravity="center_horizontal"
                             android:adjustViewBounds="true"
                             android:contentDescription="@string/qr_code_desc" />
@@ -139,6 +141,16 @@
                                 android:layout_height="@dimen/_1sdp"
                                 android:background="@color/logo_color"/>
                         </LinearLayout>
+                        <EditText
+                            android:id="@+id/et_uri"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_40sdp"
+                            android:background="@color/gray"
+                            android:textColor="@color/black"
+                            android:hint="UPI LINK"
+                            android:imeOptions="actionDone"
+                            android:padding="@dimen/_10sdp"
+                            android:inputType="textUri"/>
                         <TextView
                             android:id="@+id/tv_upilink"
                             android:layout_width="match_parent"
